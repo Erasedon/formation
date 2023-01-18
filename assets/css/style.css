@@ -1,3 +1,4 @@
+
 #rech {
     display: flex;
     justify-content: center;
@@ -10,3 +11,56 @@
     position: relative              
     
 }
+
+
+/* page Détail css */
+
+body {
+
+    background-color: white;
+}
+
+.navbar-page-detail {
+ color:black;
+}
+
+.page-detail-titre-div {
+
+    margin-top: 50px;
+}
+.page-detail-titre {
+color:#01A6DC;
+
+
+}
+
+.card-page-detail{
+
+    background-color: #01A6DC;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+  
+
+}
+
+.titre-comptetence {
+
+    color:#01A6DC;
+ 
+
+}
+
+.titre-RNCP {
+
+
+    width: 150px;
+    padding: 10px;
+    margin-top: 50px;
+    font-size: 10px;
+    margin-left: 10px;
+   background-color: white;
+   border-radius: 5px;
+}
+
+
