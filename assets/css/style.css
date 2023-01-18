@@ -1,4 +1,16 @@
 
+#rech {
+    display: flex;
+    justify-content: center;
+    width:600px;
+    border-radius: 10px 10px 10px 10px;
+    height:30px;
+    font-size: 20px;
+    text-align: center;
+    align-content: center;
+    position: relative              
+    
+}
 
 
 /* page Détail css */
@@ -50,4 +62,5 @@ color:#01A6DC;
    background-color: white;
    border-radius: 5px;
 }
+
 
