@@ -1,0 +1,65 @@
+/* border: 1px solid red; */
+
+
+.corps_admin{
+    margin: 0;
+    padding: 0;
+    font-family: 'Lato', sans-serif;
+
+}
+
+.corps_admin a{
+    text-decoration: none;
+}
+
+.titre_admin{
+    text-align: center;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.menu_admin{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+/* 
+.sous_menu_admin{
+    border: 1px solid red;
+} */
+
+.contenu_admin{
+    border: 1px solid red;
+}
+
+.admin_ajouter_formation{
+    margin: 15px;
+    background: #01A6DC;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: bold;
+    border: none;
+}
+
+.titre_formulaire_admin{
+    text-align: center;
+    font-size: 30px;
+}
+
+.ligne_cadre_admin{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.colonne_gauche_admin{
+    text-align: right;
+    width: 40%;
+}
+.colonne_droite_admin{
+    width: 40%;
+    margin-left: 15px;
+}
