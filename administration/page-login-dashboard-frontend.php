@@ -30,8 +30,7 @@
 <body>
     <!-- partie pour Nav page login -->
 
-    <?php include("../assets/include/navbar-login-dashboard.php") ?>
- 
+    <?php include("../assets/include/navbar.php") ?>
     <!-- partie login dashboard -->
     <div class="container">
     
