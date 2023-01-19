@@ -555,8 +555,8 @@ include '../assets/include/config.php';
                                
                                 
                                echo '
-                               <td> <a href="#" class="sous_menu_admin_formation_modifier" data-value="'.$affiche_competence['id_competence'].'"><i class="fa-solid fa-pen jaune"></i></a> / 
-                                <a href="#" class="sous_menu_admin_formation_supprimer" data-value="'.$affiche_competence['id_competence'].'"><i class="fa-solid fa-trash rouge"></i></a>
+                               <td> <a href="#" class="sous_menu_admin_competence_modifier" data-value="'.$affiche_competence['id_competence'].'"><i class="fa-solid fa-pen jaune"></i></a> / 
+                                <a href="#" class="sous_menu_admin_competence_supprimer" data-value="'.$affiche_competence['id_competence'].'"><i class="fa-solid fa-trash rouge"></i></a>
                                  </td>
                             </tr>
                            
