@@ -94,7 +94,6 @@ $(document).ready(function(){
                     }
                 }
             });
-    
         });
 
         // ici j'affiche la partie formation le formulaire pour modifier 
@@ -252,53 +251,128 @@ $(document).ready(function(){
     
         })
 
-                // ici j'affiche la partie competences
-                $('.corps_admin').on(
-                    'click',
-                    '.sous_menu_admin_categorie',
-                    function(ee)
-                    {
-                        ee.preventDefault();
+        // ici j'affiche la partie compet quand on ajoute la formation
+        $('.corps_admin').on(
+            'submit',
+            '.valider_competence',
+            function(e)
+            {
+                e.preventDefault();
+    
+                var myForm = document.getElementById('myForm');
+    
+                let form_data = new FormData(myForm);    
                 
-                        $.ajax({
-                            url : 'gestion.php?action=categories',
-                            type: 'post',
-                            contentType : false,
-                            processData : false,
-                            success: function(donnees2){        
-                
-                                $('.contenu_admin').empty();
-                                $('.contenu_admin').append(donnees2);
-                
-                
-                            }
-                        });
-                
-                    })
+                $.ajax({
+                    url : 'gestion.php?action=ajouter_competence',
+                    type: 'post',
+                    data : form_data,
+                    contentType : false,
+                    processData : false,
+                    success: function(donnees2){        
+    
+                        const obj = JSON.parse(donnees2);
+                    
+                        if (obj.erreur != ''){
+                            $('.message_erreur_formulaire_admin').empty();
+                            $('.message_erreur_formulaire_admin').html(obj.erreur);    
+                        }
+                        else {
+                            $('.message_erreur_formulaire_admin').empty();
+                            $('.message_erreur_formulaire_admin').html(obj.message);
+    
+                            $('#titre').val('');
+                            $('#description').val('');
+                            $('#reference').val('');
+                            $('#reference_existe').val('');
+                            $('#reference_titre_existe').val('');
+                            $('input[type="checkbox"]').prop("checked", false);
+    
+                        }
+                    }
+                });
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // ici j'affiche la partie categorie
+        $('.corps_admin').on(
+            'click',
+            '.sous_menu_admin_categorie',
+            function(ee)
+            {
+                ee.preventDefault();
+        
+                $.ajax({
+                    url : 'gestion.php?action=categories',
+                    type: 'post',
+                    contentType : false,
+                    processData : false,
+                    success: function(donnees2){        
+        
+                        $('.contenu_admin').empty();
+                        $('.contenu_admin').append(donnees2);
+        
+        
+                    }
+                });
+        
+            })
             
-                    // ici j'affiche la partie competence le formulaire
-                    $('.corps_admin').on(
-                    'click',
-                    '.admin_ajouter_categorie',
-                    function(ee)
-                    {  
-                        ee.preventDefault();
-                
-                        $.ajax({
-                            url : 'gestion.php?action=ajout_categorie',
-                            type: 'post',
-                            contentType : false,
-                            processData : false,
-                            success: function(donnees2){        
-            
-                                $('.contenu_admin').empty();
-                                $('.contenu_admin').append(donnees2);
-                
-                
-                            }
-                        });
-                
-                    })
+            // ici j'affiche la partie competence le formulaire
+            $('.corps_admin').on(
+            'click',
+            '.admin_ajouter_categorie',
+            function(ee)
+            {  
+                ee.preventDefault();
+        
+                $.ajax({
+                    url : 'gestion.php?action=ajout_categorie',
+                    type: 'post',
+                    contentType : false,
+                    processData : false,
+                    success: function(donnees2){        
+    
+                        $('.contenu_admin').empty();
+                        $('.contenu_admin').append(donnees2);
+        
+        
+                    }
+                });
+        
+            })
 
              
 

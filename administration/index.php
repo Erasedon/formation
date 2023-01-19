@@ -35,7 +35,7 @@ include '../assets/include/config.php';
         <div class="menu_admin">
 
             <a href="#" class="sous_menu_admin_formation">Gestion des formations</a> 
-            <a href="#" class="sous_menu_admin_competences">Gestion des compétenences</a> 
+            <a href="#" class="sous_menu_admin_competences">Gestion des compétences</a> 
             <a href="#" class="sous_menu_admin_categorie">Gestion des catégories</a> 
 
         </div>

@@ -29,6 +29,7 @@ include '../assets/include/config.php';
                         while ($affiche_formation = $requete_formation->fetch())
                         {
                            echo '
+
                             <tr>
                                 <td>'.$affiche_formation['titre_formation'].'</td>
                                 <td>'.$affiche_formation['code_formation'].'</td>
@@ -46,10 +47,13 @@ include '../assets/include/config.php';
                                 {
                                     echo ''.$affiche_categorie['titre_categories'].', ';     
                                     
+                
                                 }
                                 
                                 echo '</td>
-                                <td> Modifier / Supprimer </td>
+                                <td> <a href="#" class="sous_menu_admin_formation_modifier" data-value="'.$affiche_formation['id_formation'].'"><i class="fa-solid fa-pen jaune"></i></a> / 
+                                <a href="#" class="sous_menu_admin_formation_supprimer" data-value="'.$affiche_formation['id_formation'].'"><i class="fa-solid fa-trash rouge"></i></a>
+                                 </td>
                             </tr>
                            
                            ';
@@ -332,17 +336,7 @@ include '../assets/include/config.php';
                                         if ($affiche_categories_form == 1){echo 'checked="yes">';} else {echo '>';}
 
                                     echo $affiche_categories['titre_categories'];
-
-                                        // if ($affiche_categories_form['id_categories'] == $affiche_categories['id_categories']) 
-                                        // {                                           
-                             
-                                        //     echo '<input type="checkbox" name="categories[]" value="'.$affiche_categories['id_categories'].'" checked="yes">'.$affiche_categories['titre_categories'].' ';
-                                        // } 
-                                        
-                                        // // else {
-                                        // //     echo '<input type="checkbox" name="categories[]" value="'.$affiche_categories['id_categories'].'">'.$affiche_categories['titre_categories'].' ';
-                                        // // }
-                                                                
+                                                              
                                 }
                             ?>
                   </div>
@@ -494,17 +488,322 @@ include '../assets/include/config.php';
             <button class="admin_ajouter_competences">Ajouter une compétence</button>
 
 
-            <br><br>
+
+            <table id="myTable3" class="display">
+                <thead>
+                    <tr>
+                        <th>Description de la compétence</th>
+                        <th>Titre de la formation</th>
+                        <th>Référence</th>
+                        <th>Nb formation concernée</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $sql_competence = "SELECT * FROM competence";
+                        $requete_competence = $db->prepare($sql_competence);
+                        $requete_competence->execute();                        
+                        while ($affiche_competence = $requete_competence->fetch())
+                        {
+                           echo '
+
+                            <tr>
+                                <td>'.nl2br($affiche_competence['desc_competence']).'</td>
+                                <td>';
+
+                                if ($affiche_competence['titre_competence'] == '')
+                                {
+                                    echo 'Pas de titre';
+                                }
+                                else {
+                                    echo  $affiche_competence['titre_competence'].'</td>';
+                                }
+
+                                echo '<td>';
+
+                                $sql_ref = "SELECT * FROM avoir_ref af, reference r
+                                WHERE af.id_reference=r.id_reference
+                                AND  af.id_competence = :id_comp";
+                                $requete_ref = $db->prepare($sql_ref);
+                                $requete_ref->execute(array(
+                                    ":id_comp" => $affiche_competence['id_competence']
+                                ));                        
+                                $affiche_ref = $requete_ref->fetch();
+
+                               echo $affiche_ref['titre_reference'];
+
+                               echo '</td>';
 
 
-            ici le resultat du tableau competence
+                                echo '<td>';
+
+                                // ici on calcul le nombre de formation concerné
+                                $sql_comp_form = "SELECT * FROM posseder WHERE id_competence = :id_comp";
+                                $requete_comp_form = $db->prepare($sql_comp_form);
+                                $requete_comp_form->execute(array(
+                                    ":id_comp" => $affiche_competence['id_competence']
+                                ));                        
+                                $affiche_cop_form = $requete_comp_form->rowCount();
+
+                                echo $affiche_cop_form;
+
+
+                                
+                                echo '</td>';                             
+                                
+                               
+                                
+                               echo '
+                               <td> <a href="#" class="sous_menu_admin_formation_modifier" data-value="'.$affiche_competence['id_competence'].'"><i class="fa-solid fa-pen jaune"></i></a> / 
+                                <a href="#" class="sous_menu_admin_formation_supprimer" data-value="'.$affiche_competence['id_competence'].'"><i class="fa-solid fa-trash rouge"></i></a>
+                                 </td>
+                            </tr>
+                           
+                           ';
+                        }
+
+
+                    ?>
+                </tbody>
+            </table>
+
+            <script src="../assets/js/datatable.js"></script>
+            <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
 
             <?php
         }
 
         if ($_GET['action'] == 'ajout_competence')
         {
-            echo "on affiche le formulaire pour ajouter une competence";
+            ?>
+                <div class="titre_formulaire_admin">Ajouter une compétence</div>
+
+                <div class="message_erreur_formulaire_admin"></div>
+            
+                <div class="cadre_formulaire_admin">
+            
+                    <form class="valider_competence" id="myForm">
+                        <div class="ligne_cadre_admin">
+                            <div class="colonne_gauche_admin">Titre de la compétence</div>
+                            <div class="colonne_droite_admin"> <input type="text" size="50" name="titre" id="titre" placeholder="Titre de la compétence (Facultatif)"> </div>
+                        </div>
+            
+                        <div class="ligne_cadre_admin">
+                            <div class="colonne_gauche_admin">Description de la compétence</div>
+                            <div class="colonne_droite_admin"> <textarea name="description" id="description" cols="70" rows="5" placeholder="Description de la compétence"></textarea></div>
+                        </div>     
+
+                        <hr>
+
+                        <div class="ligne_cadre_admin">
+                            <div class="colonne_gauche_admin">Sélectionner une référence</div>
+                            <div class="colonne_droite_admin">
+                                <select name="reference" id="reference">
+                                    <option value="">Ne rien sélectionner si aucune référence ne correspond</option>
+                                    <?php    
+                                        $sql_reference = "SELECT * FROM reference";
+                                        $requete_reference = $db->prepare($sql_reference);
+                                        $requete_reference->execute();                        
+                                        while ($affiche_reference = $requete_reference->fetch())
+                                        {
+
+                                            echo '<option value="'.$affiche_reference['id_reference'].'" >'.$affiche_reference['numeros_reference'].' '.$affiche_reference['titre_reference'].'</option>';
+                                        }
+                                    ?>  
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="ligne_cadre_admin">
+                            <div class="colonne_gauche_admin">Ajouter une référence</div>
+                            <div class="colonne_droite_admin"> 
+                                <input type="text" size="50" name="reference_existe" id="reference_existe" placeholder="Code de la référence (si aucune référence ne correspond)"> 
+                                <input type="text" size="50" name="reference_titre_existe" id="reference_titre_existe" placeholder="Titre de la référence (si aucune référence ne correspond)"> 
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        Relier a une ou des formations
+
+                        <div class="ligne_cadre_admin">
+                            <div class="colonne_gauche_admin">Relier la compétence à une formation </div>
+                            <div class="colonne_droite_admin"> 
+                            <?php    
+                                $sql_formation = "SELECT * FROM formation";
+                                $requete_formation = $db->prepare($sql_formation);
+                                $requete_formation->execute();                        
+                                while ($affiche_formation = $requete_formation->fetch())
+                                {
+                                    echo '<input type="checkbox" name="formations[]" value="'.$affiche_formation['id_formation'].' ">'.$affiche_formation['titre_formation'].'<br> ';
+                                }
+                            ?>
+
+                            </div>
+                        </div>  
+            
+                        <div class="ligne_cadre_admin">
+                        <d  iv class="colonne_gauche_admin"> <input type="submit" value="Ajouter la formation"> </div>
+                        </div>
+                    </form>
+            
+                </div>
+            <?php
+        }
+
+        if ($_GET['action'] == 'ajouter_competence')
+        {
+
+            $message = "";
+            $erreur = "";
+
+
+            // $erreur .=' reference '.$_POST['reference'].' et ref existe '.$_POST['reference_existe'].'';
+
+            if (($_POST['reference'] == '') &&  ($_POST['reference_existe'] == '') AND  ($_POST['reference_titre_existe'] == ''))
+            {
+                $erreur .= 'Merci de choisir une référence ou d\'en creer une';
+            }
+            else {
+
+                if (($_POST['reference'] != '') &&  ($_POST['reference_existe'] != '') &&  ($_POST['reference_titre_existe'] != ''))
+                {
+                    $erreur .= 'Merci de choisir une référence qui existe, ou d\'en créer une si nécessaire';
+                }
+                if (($_POST['reference'] != '') OR ($_POST['reference_existe'] != '') AND ($_POST['reference_titre_existe'] != ''))
+                {
+                    if (isset($_POST['description']) &&  !empty($_POST['description']))
+                    {
+        
+                        $sqlajoutcomp= "INSERT INTO `competence` (`titre_competence`,`desc_competence`) 
+                        VALUES (:titre_formation, :description_formation)";
+                        $requeteajoutcomp = $db->prepare($sqlajoutcomp);
+                        $requeteajoutcomp->execute(
+                            array(
+                                ":titre_formation" => $_POST['titre'],
+                                ":description_formation" => $_POST['description']
+                            )
+                        );
+                        $dernier_id = $db->lastInsertId();
+    
+                        if ($_POST['reference'] != '')
+                        {   
+                            // ici on recupere la référence 
+    
+                            // on relis la compétence creer à la référence récuperer dans la table avoir_ref
+                            $sqlajoutref2= "INSERT INTO `avoir_ref` (`id_competence`,`id_reference`) 
+                            VALUES (:id_competence, :id_reference)";
+                            $requeteajoutref2 = $db->prepare($sqlajoutref2);
+                            $requeteajoutref2->execute(
+                                array(
+                                    ":id_competence" => $dernier_id,
+                                    ":id_reference" => $_POST['reference']
+                                )
+                            );
+
+                             // ici on relie la competence à la formation
+
+                            if (isset($_POST['formations'] ))
+                            {
+                                foreach ($_POST['formations'] as $form)
+                                {
+                            
+                                $sqlajoutcat= "INSERT INTO `posseder` (`id_competence`,`id_formation`) 
+                                VALUES (:id_competence, :id_formation)";
+                                $requeteajoutcat = $db->prepare($sqlajoutcat);
+                                $requeteajoutcat->execute(
+                                    array(
+                                        ":id_competence" => $dernier_id,
+                                        ":id_formation" => $form
+                                    )
+                                );
+
+                                }
+
+                            }
+    
+                        }
+    
+                        if (($_POST['reference_existe'] != '') AND ($_POST['reference_titre_existe'] != ''))
+                        {
+
+                            // on insert la référence dans bdd
+
+                            $sqlajoutref= "INSERT INTO `reference` (`numeros_reference`,`titre_reference`) 
+                            VALUES (:numeros_reference, :titre_reference)";
+                            $requeteajoutref = $db->prepare($sqlajoutref);
+                            $requeteajoutref->execute(
+                                array(
+                                    ":numeros_reference" => $_POST['reference_existe'],
+                                    ":titre_reference" => $_POST['reference_titre_existe']
+                                )
+                            );
+                            $dernier_id_ref = $db->lastInsertId();
+    
+                            // ensuite on relis la compétence à la référence dans la table avoir_ref
+                            $sqlajoutref2= "INSERT INTO `avoir_ref` (`id_competence`,`id_reference`) 
+                            VALUES (:id_competence, :id_reference)";
+                            $requeteajoutref2 = $db->prepare($sqlajoutref2);
+                            $requeteajoutref2->execute(
+                                array(
+                                    ":id_competence" => $dernier_id,
+                                    ":id_reference" => $dernier_id_ref
+                                )
+                            );
+
+                            
+                            if (isset($_POST['formations'] ))
+                            {
+                                foreach ($_POST['formations'] as $form)
+                                {
+                            
+                                $sqlajoutcat= "INSERT INTO `posseder` (`id_competence`,`id_formation`) 
+                                VALUES (:id_competence, :id_formation)";
+                                $requeteajoutcat = $db->prepare($sqlajoutcat);
+                                $requeteajoutcat->execute(
+                                    array(
+                                        ":id_competence" => $dernier_id,
+                                        ":id_formation" => $form
+                                    )
+                                );
+
+                                }
+
+                            }
+    
+                            // $message .= 'Référence creer et relié à la compétence';
+   
+                        }
+
+
+
+                        
+                    }
+                    else {
+                        
+                        $erreur .= 'Merci de remplir la description';
+                    }
+                    
+
+                    
+
+                    $message .= 'La catégorie est bien ajouté';
+                }
+                else {
+                    if (($_POST['reference_existe'] == '') OR ($_POST['reference_titre_existe'] == ''))
+                    {
+                        $erreur .= 'Si vous creer une référence merci de remplir le code et le titre';
+                    }
+                }
+    
+            }
+
+            echo json_encode(array( 
+                "message" => $message,
+                "erreur" => $erreur
+            ));
+
         }
 
 

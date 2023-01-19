@@ -45,7 +45,7 @@
     border-radius: 20px;
 }
 
-.admin_ajouter_formation{
+.admin_ajouter_formation, .admin_ajouter_competences{
     margin: 15px;
     background: #01A6DC;
     color: white;
@@ -54,6 +54,8 @@
     font-weight: bold;
     border: none;
 }
+
+
 
 .titre_formulaire_admin{
     text-align: center;
