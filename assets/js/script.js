@@ -30,12 +30,12 @@ function showResult(str) {
  $ (function(){
 
     $('#connexion-admin').submit(function (e){
-        console.log('hello');
+  
 
         e.preventDefault();
         $('.comments-admin').empty();
         var postdata = $('#connexion-admin').serialize();
-        console.log('hello2');
+       
 
         $.ajax({
     
@@ -46,12 +46,11 @@ function showResult(str) {
 
     success: function(result)
     {
-   console.log('printing result');
-   console.log('hello3');
+   
 
     console.log(result);
         if(result.isSuccess){
-            console.log('ça marche');
+         
             $("#connexion-admin").append("<p calss= 'thank-you'> Connexion reussi</p>");
             $("#connexion-admin")[0].reset();
            
