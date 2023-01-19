@@ -14,6 +14,8 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
     <!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script> -->
 
@@ -49,12 +51,11 @@ include '../assets/include/config.php';
                         <th>Code de la formation</th>
                         <th>Durée de la formation</th>
                         <th>Catégorie de la formation</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-
-  
                         $sql_formation = "SELECT * FROM formation";
                         $requete_formation = $db->prepare($sql_formation);
                         $requete_formation->execute();                        
@@ -83,6 +84,9 @@ include '../assets/include/config.php';
                                 }
                                 
                                 echo '</td>
+                                <td> <a href="#" class="sous_menu_admin_formation_modifier" data-value="'.$affiche_formation['id_formation'].'"><i class="fa-solid fa-pen jaune"></i></a> / 
+                                <a href="#" class="sous_menu_admin_formation_supprimer" data-value="'.$affiche_formation['id_formation'].'"><i class="fa-solid fa-trash rouge"></i></a>
+                                 </td>
                             </tr>
                            
                            ';
