@@ -162,11 +162,13 @@ if(isset($_GET["action"])){
 					
 					print $output;
 				}else{
+					
 					include("requete_base_card.php");
 				}
 		}
 		}else{
 			include("requete_base_card.php");
+			
 		}
 	}else{
 		include("requete_base_card.php");
