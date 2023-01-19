@@ -20,8 +20,7 @@
        <?php include("assets/include/navbar.php") ;
 
           include("assets/include/contenu-page-detail.php") ;
-
-
+          
         include("assets/include/footer.php"); ?>
     
 
