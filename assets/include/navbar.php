@@ -7,8 +7,8 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav">
-                            <a href="#" class="nav-item nav-link active">Accueil</a>
-                            <a href="#" class="nav-item nav-link">Nos formations</a>
+                            <a href="index.php" class="nav-item nav-link active">Accueil</a>
+                            <a href="page-detail.php" class="nav-item nav-link">Nos formations</a>
 
                         </div>
                         <div class="navbar-nav ms-auto">

@@ -17,13 +17,11 @@
     <div class="container">
         <div class="row ">
 
-       <?php include("assets/include/navbar.php") ?>
+       <?php include("assets/include/navbar.php") ;
 
-     
-
-            <?php include("assets/include/contenu-page-detail.php") ?>
-
-            <?php include("assets/include/footer.php") ?>
+          include("assets/include/contenu-page-detail.php") ;
+          
+        include("assets/include/footer.php"); ?>
     
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
