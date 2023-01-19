@@ -1,3 +1,17 @@
+<?php
+
+session_start();
+if(!isset($_SESSION["id"])){
+    header("location:page-login-dashboard-frontend.php");
+    exit;
+  }
+
+require '../assets/include/config.php';
+
+
+
+
+?> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,6 +49,12 @@ include '../assets/include/config.php';
             <a href="#" class="sous_menu_admin_formation">Gestion des formations</a> 
             <a href="#" class="sous_menu_admin_competences">Gestion des compétenences</a> 
             <a href="#" class="sous_menu_admin_categorie">Gestion des catégories</a> 
+           
+          <!-- Hassan a ajouté le butoon de Déconnexion ici -->
+            <a href="page-logout-dashboard.php" class="">Déconnexion</a></li>
+
+           
+
 
         </div>
 

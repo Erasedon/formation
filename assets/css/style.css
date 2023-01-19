@@ -13,7 +13,7 @@
 }
 
 
-/* page Détail css */
+/* page Détail css Hassan */
 
 body {
 
@@ -64,3 +64,22 @@ color:#01A6DC;
 }
 
 
+/* page login dashboard css Hassan */
+
+
+/* .comments-admin p {
+
+    color:red;
+} */
+
+.titre-page-login-dashboard a {
+
+    color: #01A6DC;
+    text-decoration: none;
+}
+
+.comment-login p {
+
+    color:red;
+
+}

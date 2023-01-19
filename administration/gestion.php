@@ -1,4 +1,13 @@
 <?php
+// session du page login dashboard
+session_start();
+if(!isset($_SESSION["id"])){
+    header("location:page-login-dashboard-frontend.php");
+    exit;
+  }
+
+
+
 
 include '../assets/include/config.php';
 

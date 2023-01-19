@@ -23,15 +23,6 @@
 
             <?php include("assets/include/contenu-page-detail.php") ?>
 
-
-
-                
-
-
-          
- 
-
-
             <?php include("assets/include/footer.php") ?>
     
 
