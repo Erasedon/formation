@@ -1,4 +1,5 @@
 
+ 
     str ='';
     showResult(str);
     function showResult(str) {
@@ -64,3 +65,57 @@ function get_filter(class_name) {
     // on retourne le tableau sous la forme  d'une chaine de caractere 
     return filter.toString();
 }
+
+
+ //page login dashboard 
+
+ $ (function(){
+
+    $('#connexion-admin').submit(function (e){
+  
+
+        e.preventDefault();
+        $('.comments-admin').empty();
+        var postdata = $('#connexion-admin').serialize();
+       
+
+        $.ajax({
+    
+    type:'POST',
+    url: 'page-login-dashboard-backend.php',
+    data: postdata,
+    dataType: 'json',
+
+    success: function(result)
+    {
+   
+
+    console.log(result);
+        if(result.isSuccess){
+         
+            $("#connexion-admin").append("<p calss= 'thank-you'> Connexion reussi</p>");
+            $("#connexion-admin")[0].reset();
+           
+            
+            document.location.href="index.php";
+              
+        }
+        else{
+            console.log('erreur');
+            $("#username + .comments-admin").html(result.usernameError);
+            $("#password + .comments-admin").html(result.passwordError);
+           
+        }
+    
+    },
+ 
+    
+        });
+    
+    }); 
+    
+    
+    });
+
+    // Fin page login dashboard 
+
