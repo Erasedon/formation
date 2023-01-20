@@ -90,9 +90,6 @@ include '../assets/include/config.php';
             if (isset($_POST["titre"], $_POST["description"], $_POST["code_formation"], $_POST["duree"], $_POST["niveau_formation"], $_POST["condition_formation"], $_POST["metier_vise"], $_POST["frais_scolarite"], $_POST["lieu_formation"], $_POST["categories"])                
             && !empty($_POST["titre"]) && !empty($_POST["description"]) && !empty($_POST["code_formation"]) && !empty($_POST["duree"]) && !empty($_POST["niveau_formation"]) && !empty($_POST["condition_formation"]) && !empty($_POST["metier_vise"]) && !empty($_POST["frais_scolarite"]) && !empty($_POST["lieu_formation"]) && !empty($_POST["categories"]))
             {
-
-
-
                     // ici on insere la demande avec la lettre de motivation et plus bas on met le CV
                     $sqlajoutfor= "INSERT INTO `formation` (`titre_formation`,`description_formation`, `code_formation`,`condition_formation`,`metier_viser_formation`,`frais_scolarite_formation`,`lieu_formation`, `duree_formation`, `id_niveau`) 
                     VALUES (:titre_formation, :description_formation, :code_formation, :condition_formation, :metier_viser_formation, :frais_scolarite_formation, :lieu_formation, :duree_formation, :id_niveau)";
@@ -126,15 +123,28 @@ include '../assets/include/config.php';
                     );
 
                     }
+
+                    foreach ($_POST['type_formation'] as $type_form)
+                    {
+                
+                    $sqlajouttype= "INSERT INTO `effectuer_type_formation` (`id_type_formation`,`id_formation`) 
+                    VALUES (:id_type_formation, :id_formation)";
+                    $requeteajouttype = $db->prepare($sqlajouttype);
+                    $requeteajouttype->execute(
+                        array(
+                            ":id_type_formation" => $type_form,
+                            ":id_formation" => $dernier_id
+                        )
+                    );
+
+                    }
             }
             else {
                 $erreur .= '<div class="message_erreur_formulaire_admin"> Veuillez remplir tous les champs</div>';
             }
 
-       
-
             $message .= ' <div class="message_erreur_formulaire_admin">       
-            formation ajouté
+            formation ajoutée
             </div>';
 
             echo json_encode(array( 
@@ -175,6 +185,21 @@ include '../assets/include/config.php';
                 <div class="ligne_cadre_admin">
                     <div class="colonne_gauche_admin">Durée de la formation</div>
                     <div class="colonne_droite_admin"> <input type="text" placeholder="Durée de la formation" name="duree" id="duree">  </div>
+                </div>
+
+                <div class="ligne_cadre_admin">
+                    <div class="colonne_gauche_admin">Type de la formation</div>
+                    <div class="colonne_droite_admin"> 
+                            <?php                  
+                                $sql_type_formation = "SELECT * FROM type_formation";
+                                $requete_type_formation = $db->prepare($sql_type_formation);
+                                $requete_type_formation->execute();                        
+                                while ($affiche_type_formation = $requete_type_formation->fetch())
+                                {
+                                    echo '<input type="checkbox" name="type_formation[]" value="'.$affiche_type_formation['id_type_formation'].' ">'.$affiche_type_formation['titre_type_formation'].' ';
+                                }
+                            ?>      
+                  </div>
                 </div>
 
                 <div class="ligne_cadre_admin">
@@ -299,6 +324,38 @@ include '../assets/include/config.php';
                 </div>
 
                 <div class="ligne_cadre_admin">
+                    <div class="colonne_gauche_admin">Type de la formation</div>
+                    <div class="colonne_droite_admin"> 
+                            <?php    
+                                $sql_type_formation = "SELECT * FROM type_formation";
+                                $requete_type_formation = $db->prepare($sql_type_formation);
+                                $requete_type_formation->execute();                        
+                                while ($affiche_type_formation = $requete_type_formation->fetch())
+                                {
+
+                                     echo '<input type="checkbox" name="type_formation[]" value="'.$affiche_type_formation['id_type_formation'].'"';
+
+
+                                    $sql_categories_form = "SELECT * FROM effectuer_type_formation WHERE id_formation = :id_form AND id_type_formation = :id_type_form";
+                                    $requete_categories_form = $db->prepare($sql_categories_form);
+                                    $requete_categories_form->execute(array(
+                                        ":id_form" => $_POST['id_form'],
+                                        ":id_type_form" => $affiche_type_formation['id_type_formation']
+                                    ));                        
+                                    $affiche_categories_form = $requete_categories_form->rowCount();
+                                                                   
+
+                                        if ($affiche_categories_form == 1){echo 'checked="yes">';} else {echo '>';}
+
+                                    echo $affiche_type_formation['titre_type_formation'];
+                                                              
+                                }
+                            ?>
+                    </div>
+                </div>
+                
+
+                <div class="ligne_cadre_admin">
                     <div class="colonne_gauche_admin">Niveau de la formation</div>
                     <div class="colonne_droite_admin"> 
                         <select name="niveau_formation" id="niveau_formation">
@@ -322,7 +379,6 @@ include '../assets/include/config.php';
                 <div class="ligne_cadre_admin">
                     <div class="colonne_gauche_admin">Catégorie de la formation</div>
                     <div class="colonne_droite_admin"> 
-                
                             <?php    
                                 $sql_categories = "SELECT * FROM categories";
                                 $requete_categories = $db->prepare($sql_categories);
@@ -348,7 +404,7 @@ include '../assets/include/config.php';
                                                               
                                 }
                             ?>
-                  </div>
+                    </div>
                 </div>
                 <div class="ligne_cadre_admin">
                     <div class="colonne_gauche_admin">Condition de la formation</div>
@@ -375,7 +431,7 @@ include '../assets/include/config.php';
                 
 
                 <div class="ligne_cadre_admin">
-                    <div class="colonne_gauche_admin"> <input type="submit" value="Ajouter la formation"> </div>
+                    <div class="colonne_gauche_admin"> <input type="submit" value="Modifier la formation" class="modif_formation_admin"> </div>
                 </div>
                 </form>
 
@@ -390,8 +446,8 @@ include '../assets/include/config.php';
 
             $message = '';
 
-            if (isset($_POST["titre"], $_POST["description"], $_POST["code_formation"], $_POST["duree"], $_POST["niveau_formation"], $_POST["condition_formation"], $_POST["metier_vise"], $_POST["frais_scolarite"], $_POST["lieu_formation"], $_POST["categories"])                
-            && !empty($_POST["titre"]) && !empty($_POST["description"]) && !empty($_POST["code_formation"]) && !empty($_POST["duree"]) && !empty($_POST["niveau_formation"]) && !empty($_POST["condition_formation"]) && !empty($_POST["metier_vise"]) && !empty($_POST["frais_scolarite"]) && !empty($_POST["lieu_formation"]) && !empty($_POST["categories"]))
+            if (isset($_POST["titre"], $_POST["description"], $_POST["code_formation"], $_POST["duree"], $_POST["niveau_formation"], $_POST["condition_formation"], $_POST["metier_vise"], $_POST["frais_scolarite"], $_POST["lieu_formation"], $_POST["categories"], $_POST['type_formation'] )                
+            && !empty($_POST["titre"]) && !empty($_POST["description"]) && !empty($_POST["code_formation"]) && !empty($_POST["duree"]) && !empty($_POST["niveau_formation"]) && !empty($_POST["condition_formation"]) && !empty($_POST["metier_vise"]) && !empty($_POST["frais_scolarite"]) && !empty($_POST["lieu_formation"]) && !empty($_POST["categories"]) && !empty($_POST['type_formation'] ))
             {
 
                 $message .= ' <div class="message_erreur_formulaire_admin">       
@@ -437,6 +493,25 @@ include '../assets/include/config.php';
 
             }
 
+            $sql_type = "DELETE FROM effectuer_type_formation WHERE id_formation=:id_form";
+            $requete_type = $db->prepare($sql_type);
+            $requete_type->execute(array(
+                ":id_form" => $_POST['id_form']
+            )); 
+
+            foreach ($_POST['type_formation'] as $form)
+            {
+                $sqlajoutcat= "INSERT INTO `effectuer_type_formation` (`id_type_formation`,`id_formation`) 
+                VALUES (:id_type_formation, :id_formation)";
+                $requeteajoutcat = $db->prepare($sqlajoutcat);
+                $requeteajoutcat->execute(
+                    array(
+                        ":id_type_formation" => $form,
+                        ":id_formation" =>  $_POST['id_form']
+                    )
+                );
+            }
+
             }
             else {
                 $message = 'Merci remplir tous les champs';
@@ -480,13 +555,34 @@ include '../assets/include/config.php';
             )); 
 
             
+            $sql_type = "DELETE FROM effectuer_type_formation WHERE id_formation=:id_form";
+            $requete_type = $db->prepare($sql_type);
+            $requete_type->execute(array(
+                ":id_form" => $_POST['id_form']
+            )); 
+
+            $sql_possede = "DELETE FROM posseder WHERE id_formation=:id_form";
+            $requete_possede = $db->prepare($sql_possede);
+            $requete_possede->execute(array(
+                ":id_form" => $_POST['id_form']
+            )); 
+
+            $sql_information_for = "SELECT * FROM formation WHERE id_formation = :id_form";
+            $stmt_information_for= $db->prepare($sql_information_for);
+            $stmt_information_for->execute(array(
+                
+                ":id_form" => $_POST["id_form"]
+            ));           
+            $affiche_information_for = $stmt_information_for->fetch();
+
+            echo "On supprime la formation : ".$affiche_information_for['titre_formation']." ";
+            
             $sql_form = "DELETE FROM formation WHERE id_formation=:id_form";
             $requete_form = $db->prepare($sql_form);
             $requete_form->execute(array(
                 ":id_form" => $_POST['id_form']
             )); 
 
-            echo "On supprime la formation : ".$_POST['id_form']." ";
 
         }
 
@@ -634,8 +730,6 @@ include '../assets/include/config.php';
 
                         <hr>
 
-                        Relier a une ou des formations
-
                         <div class="ligne_cadre_admin">
                             <div class="colonne_gauche_admin">Relier la compétence à une formation </div>
                             <div class="colonne_droite_admin"> 
@@ -653,7 +747,7 @@ include '../assets/include/config.php';
                         </div>  
             
                         <div class="ligne_cadre_admin">
-                        <d  iv class="colonne_gauche_admin"> <input type="submit" value="Ajouter la formation"> </div>
+                        <div class="colonne_gauche_admin"> <input type="submit" value="Ajouter la compétence"class="bouton_ajout_competence"> </div>
                         </div>
                     </form>
             
@@ -813,6 +907,89 @@ include '../assets/include/config.php';
                 "erreur" => $erreur
             ));
 
+        }
+
+        if ($_GET['action'] == 'formulaire_modif_competence')
+        {
+
+            $sql_competence_info = "SELECT * FROM competence WHERE id_competence = :id_comp";
+            $stmt_competence_info= $db->prepare($sql_competence_info);
+            $stmt_competence_info->execute(array(
+                
+                ":id_comp" => $_POST["id_comp"]
+            ));           
+            $affiche_competence_info = $stmt_competence_info->fetch();
+
+            ?>
+            <div class="titre_formulaire_admin">Modifier une compétence <br>
+            <?= $affiche_competence_info['titre_competence'] ?>
+            </div>
+
+            <div class="message_erreur_formulaire_admin"></div>
+        
+            <div class="cadre_formulaire_admin">
+        
+                <form class="valider_competence" id="myForm">
+                    <div class="ligne_cadre_admin">
+                        <div class="colonne_gauche_admin">Titre de la compétence</div>
+                        <div class="colonne_droite_admin"> <input type="text" size="50" name="titre" id="titre" 
+                        <?php 
+                        if ($affiche_competence_info['titre_competence'] == '') {echo 'placeholder="test"';}
+                        else {echo 'value="'.$affiche_competence_info['titre_competence'].'"';}
+                        ?>
+                        > </div>
+                    </div>
+
+                    <div class="ligne_cadre_admin">
+                            <div class="colonne_gauche_admin">Description de la compétence</div>
+                            <div class="colonne_droite_admin"> 
+                                <textarea name="description" id="description" cols="70" rows="5"><?= $affiche_competence_info['desc_competence'] ?></textarea>
+                            </div>
+                    </div>     
+
+                        <hr>
+
+                    <div class="ligne_cadre_admin">
+                        <div class="colonne_gauche_admin">Sélectionner une référence</div>
+                        <div class="colonne_droite_admin">
+                            <select name="reference" id="reference">
+                                <?php    
+                                    $sql_reference = "SELECT * FROM reference";
+                                    $requete_reference = $db->prepare($sql_reference);
+                                    $requete_reference->execute();                        
+                                    while ($affiche_reference = $requete_reference->fetch())
+                                    {
+                                        $sql_avoir_ref = "SELECT * FROM avoir_ref WHERE id_reference = :id_ref AND id_competence = :id_comp";
+                                        $requete_avoir_ref = $db->prepare($sql_avoir_ref);
+                                        $requete_avoir_ref->execute(array(
+                                            ":id_ref" => $affiche_reference['id_reference'],
+                                            ":id_comp" => $affiche_competence_info['id_competence']
+                                        ));                        
+                                        $affiche_avoir_ref = $requete_avoir_ref->rowCount();
+
+                                        if ($affiche_avoir_ref >= 1) {
+                                            
+                                            echo '<option value="'.$affiche_reference['id_reference'].'" checked >('.$affiche_reference['numeros_reference'].') '.$affiche_reference['titre_reference'].' </option>';
+                                        
+                                        } else {
+
+                                            echo '<option value="'.$affiche_reference['id_reference'].'" >('.$affiche_reference['numeros_reference'].') '.$affiche_reference['titre_reference'].'</option>';
+                                        }
+                                    }
+                                ?>  
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    formation
+
+                </form>
+
+            </div>
+
+            <?php
         }
 
 
