@@ -733,16 +733,15 @@ include '../assets/include/config.php';
                         <div class="ligne_cadre_admin">
                             <div class="colonne_gauche_admin">Relier la compétence à une formation </div>
                             <div class="colonne_droite_admin"> 
-                            <?php    
-                                $sql_formation = "SELECT * FROM formation";
-                                $requete_formation = $db->prepare($sql_formation);
-                                $requete_formation->execute();                        
-                                while ($affiche_formation = $requete_formation->fetch())
-                                {
-                                    echo '<input type="checkbox" name="formations[]" value="'.$affiche_formation['id_formation'].' ">'.$affiche_formation['titre_formation'].'<br> ';
-                                }
-                            ?>
-
+                                <?php    
+                                    $sql_formation = "SELECT * FROM formation";
+                                    $requete_formation = $db->prepare($sql_formation);
+                                    $requete_formation->execute();                        
+                                    while ($affiche_formation = $requete_formation->fetch())
+                                    {
+                                        echo '<input type="checkbox" name="formations[]" value="'.$affiche_formation['id_formation'].' ">'.$affiche_formation['titre_formation'].'<br> ';
+                                    }
+                                ?>
                             </div>
                         </div>  
             
@@ -922,14 +921,20 @@ include '../assets/include/config.php';
 
             ?>
             <div class="titre_formulaire_admin">Modifier une compétence <br>
-            <?= $affiche_competence_info['titre_competence'] ?>
+            <?php
+            
+            if ($affiche_competence_info['titre_competence'] == '') {}
+            else {echo $affiche_competence_info['titre_competence'];}
+
+            ?>
             </div>
 
             <div class="message_erreur_formulaire_admin"></div>
         
             <div class="cadre_formulaire_admin">
         
-                <form class="valider_competence" id="myForm">
+                <form class="valider_modif_competence" id="myForm_modif_comp">
+                    <input type="hidden" name="id_comp" id="id_comp" value="<?= $_POST['id_comp'];?>">
                     <div class="ligne_cadre_admin">
                         <div class="colonne_gauche_admin">Titre de la compétence</div>
                         <div class="colonne_droite_admin"> <input type="text" size="50" name="titre" id="titre" 
@@ -983,13 +988,107 @@ include '../assets/include/config.php';
 
                     <hr>
 
-                    formation
+                    <div class="ligne_cadre_admin">
+                            <div class="colonne_gauche_admin">Relier la compétence à une formation </div>
+                            <div class="colonne_droite_admin"> 
+                                <?php    
+                                    $sql_formation = "SELECT * FROM formation";
+                                    $requete_formation = $db->prepare($sql_formation);
+                                    $requete_formation->execute();                        
+                                    while ($affiche_formation = $requete_formation->fetch())
+                                    {
+                                        $sql_posseder = "SELECT * FROM posseder WHERE id_competence = :id_comp AND id_formation = :id_form";
+                                        $requete_posseder = $db->prepare($sql_posseder);
+                                        $requete_posseder->execute(array(
+                                            ":id_comp" => $affiche_competence_info['id_competence'],
+                                            ":id_form" => $affiche_formation['id_formation']
+                                        ));                        
+                                        $affiche_posseder = $requete_posseder->rowCount();
+
+                                        if ($affiche_posseder >= 1) {$check = 'checked="yes"';} else {$check = '';}
+
+                                        echo '<input type="checkbox" name="formations[]" value="'.$affiche_formation['id_formation'].'" '.$check.'>'.$affiche_formation['titre_formation'].'<br> ';
+                                    }
+                                ?>
+                            </div>
+                    </div>
+
+                    <div class="ligne_cadre_admin">
+                        <div class="colonne_gauche_admin"> <input type="submit" value="Modifier la compétence"class="bouton_ajout_competence"> </div>
+                    </div>
 
                 </form>
 
             </div>
 
             <?php
+        }
+
+        if ($_GET['action'] == 'formation_modif_valide')
+        {
+
+            // ici on modifiie le titre et la description
+
+            if (isset($_POST['description']) && !empty($_POST['description']))
+            {
+
+                $sqlcomptemajcp = "UPDATE competence SET titre_competence=:titre_competence, desc_competence=:description_competence
+                WHERE id_competence=:id_comp";
+                $requetecomptemajcp = $db->prepare($sqlcomptemajcp);
+                $requetecomptemajcp->execute(array(
+                                ":titre_competence" =>$_POST["titre"],
+                                ":description_competence" =>$_POST["description"],
+                                ":id_comp" => $_POST['id_comp']
+                            ));
+                if ($_POST["reference"] == '')
+                {
+                    echo 'Merci de sélectionner une référence';
+                }
+                else {
+                    $sql_maj_ref = "UPDATE avoir_ref SET id_reference=:id_reference
+                    WHERE id_competence=:id_comp";
+                    $requetecomptemajcp = $db->prepare($sql_maj_ref);
+                    $requetecomptemajcp->execute(array(
+                    ":id_reference" =>$_POST["reference"],
+                    ":id_comp" => $_POST['id_comp']
+                    ));
+                }
+
+                $sql_type = "DELETE FROM posseder WHERE id_competence=:id_comp";
+                $requete_type = $db->prepare($sql_type);
+                $requete_type->execute(array(
+                    ":id_comp" => $_POST['id_comp']
+                )); 
+
+
+                if (!empty($_POST['formations']))
+                {
+                    foreach ($_POST['formations'] as $form)
+                    {
+                    $sqlajoutcat= "INSERT INTO `posseder` (`id_competence`,`id_formation`) 
+                    VALUES (:id_competence, :id_formation)";
+                    $requeteajoutcat = $db->prepare($sqlajoutcat);
+                    $requeteajoutcat->execute(
+                        array(
+                            ":id_competence" => $_POST['id_comp'],
+                            ":id_formation" => $form
+                        )
+                    );
+
+                    }
+                }
+
+            }
+            else {
+                echo '<div class="message_erreur_formulaire_admin">Merci de rentrer une description</div>';                
+            }
+
+            // id competence => '.$_POST['id_comp'].' <br>
+            // titre competence => '.$_POST['titre'].' <br>
+            // desc competence => '.$_POST['description'].' <br> 
+            // reference => '.$_POST['reference'].' <br> 
+
+            echo '<div class="message_erreur_formulaire_admin">Modification faite</div>';
         }
 
 

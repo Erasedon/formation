@@ -251,6 +251,35 @@ $(document).ready(function(){
         
             });
 
+        // ici j'affiche la partie competence quand on valide le formulaire de validation
+        $('.corps_admin').on(
+            'submit',
+            '.valider_modif_competence',
+            function(e)
+            {
+                e.preventDefault();
+    
+                var myForm = document.getElementById('myForm_modif_comp');
+    
+                let form_data = new FormData(myForm);    
+                
+                $.ajax({
+                    url : 'gestion.php?action=formation_modif_valide',
+                    type: 'post',
+                    data : form_data,
+                    contentType : false,
+                    processData : false,
+                    success: function(donnees2){        
+    
+                        // const obj = JSON.parse(donnees2);  
+
+                        $('.message_erreur_formulaire_admin').empty();
+                        $('.message_erreur_formulaire_admin').html(donnees2);
+                    }
+                });
+        
+            });
+
         // ici j'affiche la partie competence le formulaire
         $('.corps_admin').on(
         'click',
