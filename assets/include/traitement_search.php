@@ -1,9 +1,8 @@
 <?php
 include('../db/connectdb.php');	
 $query = "
-					SELECT * FROM formation f, niveau n,appartenir_cat acat, categories c, competence com,avoir_ref aref,reference ref,posseder p,effectuer_type_formation etf,type_formation tf 
-					WHERE f.id_niveau = n.id_niveau AND acat.id_categories = c.id_categories AND acat.id_formation = f.id_formation AND aref.id_competence = com.id_competence AND aref.id_reference = ref.id_reference AND  p.id_competence = com.id_competence AND p.id_formation = f.id_formation AND etf.id_type_formation = tf.id_type_formation AND etf.id_formation = f.id_formation 
-					";
+					SELECT * FROM posseder p,formation f, niveau n,appartenir_cat acat, categories c, competence com,avoir_ref aref,reference ref,effectuer_type_formation etf,type_formation tf 
+					WHERE f.id_niveau = n.id_niveau AND acat.id_categories = c.id_categories AND acat.id_formation = f.id_formation AND aref.id_competence = com.id_competence AND aref.id_reference = ref.id_reference AND  p.id_competence = com.id_competence AND p.id_formation = f.id_formation AND etf.id_type_formation = tf.id_type_formation AND etf.id_formation = f.id_formation ";
 if(isset($_GET["action"])){
 	if(isset($_GET["str"])){
 		$filter = $_GET["filter"];
