@@ -45,7 +45,7 @@
     border-radius: 20px;
 }
 
-.admin_ajouter_formation, .admin_ajouter_competences{
+.admin_ajouter_formation, .admin_ajouter_competences, .modif_formation_admin, .bouton_ajout_competence{
     margin: 15px;
     background: #01A6DC;
     color: white;
