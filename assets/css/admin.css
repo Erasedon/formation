@@ -1,0 +1,97 @@
+/* border: 1px solid red; */
+.jaune{
+    color: orange;
+}
+
+.rouge{
+    color: red;
+}
+
+.corps_admin{
+    margin: 0;
+    padding: 0;
+    font-family: 'Lato', sans-serif;
+
+}
+
+.corps_admin a{
+    text-decoration: none;
+}
+
+.titre_admin{
+    text-align: center;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.menu_admin{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+/* 
+.sous_menu_admin{
+    border: 1px solid red;
+} */
+
+.contenu_admin{
+    border: 1px solid rgb(190, 190, 190);
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.admin_ajouter_formation, .admin_ajouter_competences{
+    margin: 15px;
+    background: #01A6DC;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: bold;
+    border: none;
+}
+
+
+
+.titre_formulaire_admin{
+    text-align: center;
+    font-size: 30px;
+}
+
+.ligne_cadre_admin{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.colonne_gauche_admin{
+    text-align: right;
+    width: 40%;
+}
+.colonne_droite_admin{
+    width: 40%;
+    margin-left: 15px;
+}
+
+.ligne_info_admin{
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.bouton_confirmer{
+    border: 1px solid green;
+    border-radius: 10px;
+    padding: 2px 15px 2px 15px;
+    margin-right: 25px;
+}
+
+.bouton_annuler{
+    border: 1px solid red;
+    border-radius: 10px;
+    padding: 2px 15px 2px 15px;
+}

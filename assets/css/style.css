@@ -1,0 +1,137 @@
+
+#rech {
+    display: flex; 
+    justify-content: center; 
+    width:600px;  
+    border-radius: 10px 10px 10px 10px;
+    height:30px;
+    font-size: 20px;
+     /* text-align: center; 
+   align-content: center;   */
+    position: relative;  
+    margin-left: auto;
+    margin-right: auto;   
+}
+
+/* .search-box {
+
+
+  
+    border-radius: 10px 10px 10px 10px;
+    text-decoration: none;
+    font-size: 20px;
+    text-align: center;
+    align-content: center;
+  
+
+} */
+
+
+
+
+/* page Détail css Hassan */
+
+body {
+
+    background-color: white;
+}
+
+
+.navbar-page-detail {
+ color:black;
+}
+
+.page-detail-titre-div {
+
+    margin-top: 50px;
+}
+.page-detail-titre {
+color:#01A6DC;
+
+
+}
+
+.card-page-detail{
+
+    background-color: #01A6DC;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+  
+
+}
+
+.titre-comptetence {
+
+    color:#01A6DC;
+ 
+
+}
+
+.titre-RNCP {
+
+
+    width: 150px;
+    padding: 10px;
+    margin-top: 50px;
+    font-size: 10px;
+    margin-left: 10px;
+   background-color: white;
+   border-radius: 5px;
+}
+
+
+/* page login dashboard css Hassan */
+
+
+/* .comments-admin p {
+
+    color:red;
+} */
+
+.titre-page-login-dashboard a {
+
+    color: #01A6DC;
+    text-decoration: none;
+}
+
+.comment-login p {
+
+    color:red;
+
+}
+
+
+
+
+/* partie Cards pour page accueil Hassan CSS */
+
+
+.cards-block  {
+    text-align: center;
+    max-width: 45rem;
+    width: 90%;
+    margin: auto;
+    /* margin-top: -10rem; */
+    position: relative;
+    background-color:#01A6DC;;
+    color: white;
+    border-radius: 14px;
+    padding: 1rem;
+    box-shadow: 0 1px 18px 10px rgba(0, 0, 0, 0.10);
+    height: 250px;
+  }
+  
+  .cards-block  h2 {
+    font-size: 2rem;
+    margin-top: 0;
+  }
+
+  .sous-cards-block {
+
+    /* background-color:#7FB3D5; */
+    margin-top: 60px;
+    border-radius: 14px;
+    
+   
+  }
