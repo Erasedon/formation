@@ -1,5 +1,5 @@
 
- const url = new URL(window.location);
+    const url = new URL(window.location); 
     str ="";
     showResult(str);
     function showResult(str) {
