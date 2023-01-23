@@ -13,7 +13,7 @@
                         </div>
                         <div class="navbar-nav ms-auto">
                             <a href="#" class="nav-item nav-link">Nous contacter</a>
-                            <a href="#" class="nav-item nav-link">A propos de nous</a>
+                            <a href="administration\page-login-dashboard-frontend.php" class="nav-item nav-link">A propos de nous</a>
 
                         </div>
                     </div>
