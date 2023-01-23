@@ -133,3 +133,16 @@ color:#01A6DC;
     
    
   }
+
+  .check{
+    display: flex;
+    justify-content: space-around;
+    margin-top:30px;
+    margin-bottom:30px;
+    
+  }
+  .livesearch{
+    display: flex;
+    flex-wrap:wrap;
+
+  }

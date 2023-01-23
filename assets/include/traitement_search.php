@@ -122,12 +122,12 @@ if(isset($_GET["action"])){
 					echo $output;
 					break;
 			case $filter =='sansf':
-				$query .= " AND (f.titre_formation='".$_GET["str"]."' OR f.description_formation ='".$_GET["str"]."')";
+				$query .= " AND (f.titre_formation='".$_GET["str"]."' OR f.description_formation ='".$_GET["str"]."') GROUP BY f.id_formation";
 				$statement =$db->prepare($query);
 				$statement->execute();
 				$result = $statement->fetchAll();
 				$titre_count = $statement->rowCount();
-				print $titre_count;
+				
 				if($titre_count > 0){
 					$output = '';
 					foreach($result as $row)
