@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">  
+        
     <script src="assets/js/jquery-1.10.2.min.js"></script>
     <script src="assets/js/jquery-ui.js"></script>
     <title>formation</title>

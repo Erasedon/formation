@@ -11,20 +11,18 @@
 						foreach($result as $row)
 								{
 									$output .= '
-									<div class="col-sm-4 text-center" style="border:1px solid red;">
-										<div class="card " style="width: 18rem;">
-											<div class="card-body">
-												<h5 class="card-title">'. $row['titre_formation'] . '</h5>
-												<h4 class="card-text" >' . $row['code_formation'] . '€</h4>
-												<p class="card-text">
-													condition_formation : '. $row['condition_formation'] .' <br />
-													lieu_formation : '. $row['lieu_formation'] .' <br />
-													duree_formation : '. $row['duree_formation'] .'
-												</p>
-												<a href="poster.php?id_formation='.$row['id_formation'].'" class="btn btn-secondary">voir plus</a>
+										<div class="col-md-4 p-2 mb-3">
+											<div class="cards-block">
+												<h2> Categorie</h2>
+												<p>'. $row['titre_formation'] . '</p>
+													<p>' . $row['titre_categories'] . ' </p>
+												<div class="sous-cards-block">
+													<p>'. $row['titre_niveau'] .'</p>
+													<p>'. $row['duree_formation'] .'</p>
+													<a href="page-detail.php?id_formation='.$row['id_formation'].'" class="btn btn-secondary">voir plus</a>
+												</div>
 											</div>
-											</div>
-									</div>
+										</div>
 									';
 								}
 					echo $output;
