@@ -1,5 +1,4 @@
 
-
 <!-- <input type="text" id="rech" onkeyup="showResult(this.value)">
 <div class="livesearch"></div> -->
 
@@ -21,9 +20,29 @@
 
       <input type="text" autocomplete="off" placeholder="Rechercher ..." style="width:50%" id="rech"  onkeyup="showResult(this.value)">
        <!-- <button type="#" class="search" disabled></button> -->
-
+        <div class="list-group-item checkbox">
+    <label><input type="checkbox" class="common_selector competence"
+    value="competence">
+    competence</label>
+</div>
+<div class="list-group-item checkbox">
+    <label><input type="checkbox" class="common_selector categories"
+    value="categories">
+    categories</label>
+</div>
+<div class="list-group-item checkbox">
+    <label><input type="checkbox" class="common_selector reference"
+            value="ref">
+            reference</label>
+        </div>
+        <div class="list-group-item checkbox">
+            <label><input type="checkbox" class="common_selector type"
+            value="type">
+            type</label>
+        </div>
       <div class="livesearch"></div> 
      
       </div>
     </div>
   </div>
+
