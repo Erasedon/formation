@@ -21,7 +21,7 @@
 													lieu_formation : '. $row['lieu_formation'] .' <br />
 													duree_formation : '. $row['duree_formation'] .'
 												</p>
-												<a href="poster.php?id_formation= '.$row['id_formation'].'" class="btn btn-secondary">voir plus</a>
+												<a href="poster.php?id_formation='.$row['id_formation'].'" class="btn btn-secondary">voir plus</a>
 											</div>
 											</div>
 									</div>
