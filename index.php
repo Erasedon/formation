@@ -16,9 +16,16 @@
 
 <body>
     <?php
-    include("assets/include/navbar.php");
-    include("assets/include/recherche.php");
-    include("assets/include/cards.php");
+    include("assets/include/navbar.php");?>
+    <div class="container">
+
+    <div class="row">
+
+   <?php include("assets/include/recherche.php");?>
+</div>
+</div>
+
+<?php
     include("assets/include/footer.php");
     ?>
     <script src="assets/js/script.js"></script>
@@ -27,4 +34,4 @@
 
 </body>
 
-</html>
+</html> 

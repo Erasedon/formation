@@ -59,7 +59,7 @@ include('assets/db/connectdb.php');
                         <div class="card card-page-detail" style="width: 12rem;">
                             <div class="card-body card-page-detail">
 
-                                <p class="card-title">CODE RNCP 31114</p>
+                                <p class="card-title">CODE RNCP <?php echo $result['code_formation'];  ?></p>
 
                             </div>
                         </div>
